@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Jobs from "./pages/Jobs";
 import JobDetails from "./pages/JobDetails";
+import PostJob from "./pages/PostJob";
 // import NotFound from "./pages/NotFound";
 
 const AppRoutes = () => {
@@ -17,6 +18,7 @@ const AppRoutes = () => {
       <Route path="/jobs" element={<Jobs />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/jobs/:jobId" element={<JobDetails />} />
+      <Route path="/post-job" element={<PostJob />} />
       {/*<Route path="*" element={<NotFound />} /> */}
     </Routes>
   );
