@@ -1,7 +1,12 @@
-//server/routes/jobs.js
 const express = require("express");
+const { postJob } = require("../controllers/postJobController");
+const isClient = require("../middleware/isClient");
 const { sql, poolPromise } = require("../config/db");
+
 const router = express.Router();
+
+// POST /api/v1/jobs — Post a new job (Only by Clients)
+router.post("/", isClient, postJob); 
 
 // GET /api/v1/jobs — Get all jobs with filters
 router.get("/", async (req, res) => {
