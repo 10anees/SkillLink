@@ -8,6 +8,8 @@ const router = express.Router();
 // POST /api/v1/jobs — Post a new job (Only by Clients)
 router.post("/", isClient, postJob); 
 
+//
+
 // GET /api/v1/jobs — Get all jobs with filters
 router.get("/", async (req, res) => {
   const { keyword, level, connects, sortBy } = req.query;
@@ -89,5 +91,22 @@ router.get("/:jobID", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+// GET /api/v1/jobs/client/:clientId — Get all jobs posted by a specific client
+router.get("/client/:clientId", async (req, res) => {
+  const { clientId } = req.params;
+  try {
+    const pool = await poolPromise;
+    const result = await pool
+      .request()
+      .input("cID", sql.Int, clientId)
+      .query("SELECT * FROM Jobs WHERE cID = @cID");
+    res.status(200).json(result.recordset);
+  } catch (err) {
+    console.error("Error fetching client jobs:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 
 module.exports = router;

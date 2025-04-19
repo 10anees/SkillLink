@@ -1,3 +1,5 @@
+
+//client.js
 const express = require("express");
 const { sql, poolPromise } = require("../config/db");
 const {registerUser} = require("../controllers/authController");
@@ -30,7 +32,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// 📌 Get All Clients
+//  Get All Clients
 router.get("/", async (req, res) => {
   try {
     const pool = await poolPromise;
@@ -42,7 +44,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// 📌 Get a Client by ID
+//  Get a Client by ID
 router.get("/:cID", async (req, res) => {
   const { cID } = req.params;
 
@@ -63,7 +65,7 @@ router.get("/:cID", async (req, res) => {
   }
 });
 
-// 📌 Update a Client
+//  Update a Client
 router.put("/:cID", async (req, res) => {
   const { cID } = req.params;
   const {
@@ -108,7 +110,7 @@ router.put("/:cID", async (req, res) => {
   }
 });
 
-// 📌 Delete a Client
+//  Delete a Client
 router.delete("/:cID", async (req, res) => {
   const { cID } = req.params;
 
@@ -126,5 +128,26 @@ router.delete("/:cID", async (req, res) => {
 });
 
 router.post("/register", registerUser);
+
+// Spent By a Client
+router.get("/spent/:userID", async (req, res) => {
+  const { userID } = req.params;
+
+  try {
+    const pool = await poolPromise;
+    const result = await pool
+      .request()
+      .input("userID", sql.Int, userID)
+      .query("SELECT spent FROM Clients WHERE cID = @userID");
+
+    if (result.recordset.length === 0) {
+      return res.status(404).json({ message: "Client not found" });
+    }
+
+    res.status(200).json(result.recordset[0]);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 module.exports = router;

@@ -2,7 +2,7 @@ const express = require("express");
 const { sql, poolPromise } = require("../config/db");
 const router = express.Router();
 
-// 📌 Create a New Transaction
+// Create a New Transaction
 router.post("/", async (req, res) => {
   const { jID, Amount, tStatus } = req.body;
 
@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// 📌 Get All Transactions
+// Get All Transactions
 router.get("/", async (req, res) => {
   try {
     const pool = await poolPromise;
@@ -41,7 +41,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// 📌 Get Transactions by Job ID
+// Get Transactions by Job ID
 router.get("/job/:jID", async (req, res) => {
   const { jID } = req.params;
 
@@ -58,7 +58,7 @@ router.get("/job/:jID", async (req, res) => {
   }
 });
 
-// 📌 Get a Single Transaction by ID
+// Get a Single Transaction by ID
 router.get("/:transactionID", async (req, res) => {
   const { transactionID } = req.params;
 
@@ -79,7 +79,7 @@ router.get("/:transactionID", async (req, res) => {
   }
 });
 
-// 📌 Update a Transaction (e.g., status change)
+// Update a Transaction (e.g., status change)
 router.put("/:transactionID", async (req, res) => {
   const { transactionID } = req.params;
   const { Amount, tStatus } = req.body;
@@ -103,7 +103,7 @@ router.put("/:transactionID", async (req, res) => {
   }
 });
 
-// 📌 Delete a Transaction
+// Delete a Transaction
 router.delete("/:transactionID", async (req, res) => {
   const { transactionID } = req.params;
 
@@ -119,5 +119,30 @@ router.delete("/:transactionID", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+router.get("/user/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const pool = await poolPromise;
+    const result = await pool
+      .request()
+      .input("userId", sql.Int, userId)
+      .query(`
+        SELECT t.*
+        FROM Transactions t
+        JOIN Jobs j ON t.jID = j.jobID
+        WHERE j.cID = @userId OR j.jobID IN (
+          SELECT jobID FROM Proposals WHERE freelancerID = @userId AND pStatus = 'Accepted'
+        )
+      `);
+
+    res.status(200).json(result.recordset);
+  } catch (error) {
+    console.error("Error fetching transactions for user:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 
 module.exports = router;
