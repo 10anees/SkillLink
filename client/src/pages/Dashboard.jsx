@@ -130,14 +130,6 @@ const Dashboard = () => {
                   <p>{connects} Available</p>
                 </div>
               )}
-              <div
-                className="overview-card turquoise"
-                onClick={() => navigate("/proposals")}
-                style={{ cursor: "pointer" }}
-              >
-                <h3>Proposals</h3>
-                <p>{proposals.length} Active</p>
-              </div>
 
               <div
                 className="overview-card dark"

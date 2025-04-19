@@ -106,16 +106,16 @@ router.delete("/:freelancerID", async (req, res) => {
 });
 
 //Earning of a Freelancer
-router.get("/earnings/:userID", async (req, res) => {
-  const { userID } = req.params;
+router.get("/earnings/:freelancerID", async (req, res) => {
+  const { freelancerID } = req.params;
   try {
     const pool = await poolPromise;
     let result = await pool
       .request()
-      .input("userID", sql.Int, freelancerID)
+      .input("freelancerID", sql.Int, freelancerID)
       .query(`
                 SELECT earned FROM Freelancers
-                WHERE freelancerID = @userID
+                WHERE freelancerID = @freelancerID
             `);
 
     if (result.recordset.length === 0) {
@@ -128,16 +128,16 @@ router.get("/earnings/:userID", async (req, res) => {
 });
 
 // totalConnects of a Freelancer
-router.get("/totalConnects/:userID", async (req, res) => {
-  const { userID } = req.params;
+router.get("/totalConnects/:freelancerID", async (req, res) => {
+  const { freelancerID } = req.params;
   try {
     const pool = await poolPromise;
     let result = await pool
       .request()
-      .input("userID", sql.Int, freelancerID)
+      .input("freelancerID", sql.Int, freelancerID)
       .query(`
                 SELECT totalConnects FROM Freelancers
-                WHERE freelancerID = @userID
+                WHERE freelancerID = @freelancerID
             `);
 
     if (result.recordset.length === 0) {

@@ -15,6 +15,7 @@ SELECT * FROM FreelancerSkills;
 SELECT * FROM Transactions;
 SELECT * FROM Messages;
 
+SELECT earned FROM Freelancers;
 
 -- Users Table
 CREATE TABLE Users (
