@@ -43,11 +43,12 @@ h2 {
   width: 300px;
   transition: 0.3s;
 }
-
-.proposal-card:hover {
-  background-color: #40e0d0; /* Turquoise background on hover */
-  color: #000; /* Black text on hover */
-  transform: scale(1.05); /* Slight zoom effect */
+.proposal-card:hover, .proposal-card:hover * {
+  background-color: #40e0d0; 
+  color: #000000 !important; 
+  border-color: #000000; 
+  border-radius: 8px;
+  transform: scale(1.05); 
 }
 
 .proposal-card p {

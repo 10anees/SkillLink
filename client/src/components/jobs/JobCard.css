@@ -73,3 +73,27 @@
 .job-link:hover::after {
   transform: translateX(3px);
 }
+
+.job-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.job-actions button,
+.job-actions a {
+  background-color: #0ab3af;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.job-actions button:hover,
+.job-actions a:hover {
+  background-color: #088e8a;
+}

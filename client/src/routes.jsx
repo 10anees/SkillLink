@@ -8,6 +8,7 @@ import Jobs from "./pages/Jobs";
 import JobDetails from "./pages/JobDetails";
 import PostJob from "./pages/PostJob";
 import Proposals from "./pages/Proposals";
+import ActiveJobs from "./pages/ActiveJobs";
 // import NotFound from "./pages/NotFound";
 
 const AppRoutes = () => {
@@ -21,6 +22,8 @@ const AppRoutes = () => {
       <Route path="/jobs/:jobId" element={<JobDetails />} />
       <Route path="/post-job" element={<PostJob />} />
       <Route path="/proposals" element={<Proposals />} />
+      <Route path="/active-jobs" element={<ActiveJobs />} />
+      console.log("ActiveJobs component mounted");
       {/*<Route path="*" element={<NotFound />} /> */}
     </Routes>
   );
