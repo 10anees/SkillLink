@@ -1,40 +1,62 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "../styles/Proposals.css";
+import { useAuth } from "../context/AuthContext";
 
-const Proposals = ({ user }) => {
+const Proposals = () => {
+  const {user} = useAuth(); 
   const [proposals, setProposals] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchProposals = async () => {
-    try {
-      let res;
-      if (user.accType === "freelancer") {
-        res = await axios.get(`/api/proposals/freelancer/${user.userID}`);
-      } else if (user.accType === "client") {
-        // Get client's jobs
-        const jobsRes = await axios.get(`/api/jobs/client/${user.userID}`);
-        const jobIDs = jobsRes.data.map((job) => job.jobID);
-
-        const allProposals = [];
-        for (const jobID of jobIDs) {
-          const propRes = await axios.get(`/api/proposals/job/${jobID}`);
-          allProposals.push(...propRes.data);
-        }
-        res = { data: allProposals };
-      }
-      setProposals(res.data);
-    } catch (error) {
-      console.error("Failed to fetch proposals", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchProposals();
-  }, []);
+    const fetchProposals = async () => {
+      console.log(">>> fetchProposals running with user:", user);
+  
+      try {
+        if (!user) {
+          console.warn("No user, skipping proposal fetch");
+          setLoading(false);
+          return;
+        }
+  
+        let response;
+        if (user.accType === "Freelancer") {
+          response = await fetch(`http://localhost:4000/api/v1/proposals/freelancer/${user.userID}`);
+          const data = await response.json();
+          setProposals(data);
+        } else if (user.accType === "Client") {
+          const jobsRes = await fetch(`http://localhost:4000/api/v1/jobs/client/${user.userID}`);
+          const jobs = await jobsRes.json();
+          const jobIDs = jobs.map((job) => job.jobID);
+          console.log("Fetched jobs for client:", jobs);
+          const allProposals = [];
+          for (const jobID of jobIDs) {
+            try {
+              const propRes = await fetch(`http://localhost:4000/api/v1/proposals/job/${jobID}`);
+              if (!propRes.ok) throw new Error(`Failed to fetch proposals for job ${jobID}`);
+              const props = await propRes.json();
+              if (Array.isArray(props)) { // Ensure props is an array
+                allProposals.push(...props);
+              }
+            } catch (error) {
+              console.error(`Error fetching proposals for job ${jobID}:`, error);
+            }
+          }
+          setProposals(allProposals);
+        }
+      } catch (error) {
+        console.error("Failed to fetch proposals", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    if (user) {
+      console.log("Inside useEffect, user is:", user);
+      fetchProposals();
+    }
+  }, [user]);  
 
+  if (!user) return <div className="error">Please log in to view proposals.</div>;
   if (loading) return <div className="loading">Loading proposals...</div>;
 
   return (

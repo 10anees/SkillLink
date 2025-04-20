@@ -1,61 +1,64 @@
 .proposals-container {
-    max-width: 900px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #e6ffe6;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    font-family: 'Segoe UI', sans-serif;
-  }
-  
-  h2 {
-    text-align: center;
-    color: #2e7d32;
-  }
-  
-  .no-proposals {
-    text-align: center;
-    color: #388e3c;
-    font-size: 1.2em;
-    padding: 20px;
-  }
-  
-  .loading {
-    text-align: center;
-    font-size: 18px;
-    color: #2e7d32;
-  }
-  
-  .proposal-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    justify-content: center;
-  }
-  
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #303030; /* Changed to #111 */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+  color: #40e0d0; /* Turquoise text for the container */
+}
+
+h2 {
+  text-align: center;
+  color: #40e0d0; /* Turquoise */
+}
+
+.no-proposals {
+  text-align: center;
+  color: #40e0d0; /* Turquoise */
+  font-size: 1.2em;
+  padding: 20px;
+}
+
+.loading {
+  text-align: center;
+  font-size: 18px;
+  color: #40e0d0; /* Turquoise */
+}
+
+.proposal-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
+.proposal-card {
+  background-color: #000; /* Black inside */
+  border: 2px solid #40e0d0; /* Turquoise outline */
+  color: #40e0d0; /* Turquoise text */
+  padding: 15px;
+  border-radius: 8px;
+  width: 300px;
+  transition: 0.3s;
+}
+
+.proposal-card:hover {
+  background-color: #40e0d0; /* Turquoise background on hover */
+  color: #000; /* Black text on hover */
+  transform: scale(1.05); /* Slight zoom effect */
+}
+
+.proposal-card p {
+  margin: 8px 0;
+  color: #40e0d0; /* Turquoise */
+  font-size: 0.95em;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
   .proposal-card {
-    background-color: #ffffff;
-    border: 2px solid #66bb6a;
-    padding: 15px;
-    border-radius: 8px;
-    width: 300px;
-    transition: 0.3s;
+    width: 90%;
   }
-  
-  .proposal-card:hover {
-    background-color: #f0fff0;
-  }
-  
-  .proposal-card p {
-    margin: 8px 0;
-    color: #2e7d32;
-    font-size: 0.95em;
-  }
-  
-  /* Responsive */
-  @media (max-width: 600px) {
-    .proposal-card {
-      width: 90%;
-    }
-  }
-  
+}
