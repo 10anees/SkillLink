@@ -152,6 +152,71 @@ const Dashboard = () => {
             </section>
 
             <section className="recent-section">
+              {currentUser.accType === "Freelancer" && (
+                <section className="recent-section">
+                  <h2>Recent Proposals</h2>
+                  {proposals.length > 0 ? (
+                    proposals.slice(0, 2).map((p, i) => (
+                      <div key={i} className="recent-card recent-proposal-card">
+                        <div className="proposal-info">
+                          <h4>{p.title}</h4>
+                          <p>
+                            <strong>Status:</strong> {p.pStatus} &nbsp;|&nbsp;
+                            <strong>Bid:</strong> $
+                            {parseFloat(p.bidAmount).toFixed(2)} &nbsp;|&nbsp;
+                            <strong>Submitted:</strong>{" "}
+                            {new Date(p.submittedOn).toLocaleDateString()}
+                          </p>
+                        </div>
+                        <div className="proposal-actions">
+                          <button
+                            className="btn-view"
+                            onClick={() =>
+                              navigate(`/proposals/${p.proposalID}`)
+                            }
+                          >
+                            View
+                          </button>
+                          <button
+                            className="btn-message"
+                            onClick={() =>
+                              navigate(`/messages?receiverID=${p.clientID}`)
+                            }
+                          >
+                            Message
+                          </button>
+                          <button
+                            className="btn-delete"
+                            onClick={async () => {
+                              const confirmDelete = window.confirm(
+                                "Delete this proposal?"
+                              );
+                              if (confirmDelete) {
+                                await fetch(
+                                  `http://localhost:4000/api/v1/proposals/${p.proposalID}`,
+                                  {
+                                    method: "DELETE",
+                                  }
+                                );
+                                setProposals((prev) =>
+                                  prev.filter(
+                                    (prop) => prop.proposalID !== p.proposalID
+                                  )
+                                );
+                              }
+                            }}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No recent proposals found.</p>
+                  )}
+                </section>
+              )}
+
               {currentUser.accType === "Client" && (
                 <section className="recent-section">
                   <h2>Recent Active Jobs</h2>
