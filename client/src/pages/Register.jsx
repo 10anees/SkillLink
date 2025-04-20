@@ -15,7 +15,7 @@ const Register = () => {
     about: "",
     // Client fields
     companyName: "",
-    companyAddress: ""
+    companyAddress: "",
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -32,7 +32,12 @@ const Register = () => {
   const handleNext = (e) => {
     e.preventDefault();
     // Validate basic fields first
-    if (!formData.name || !formData.email || !formData.password || !formData.country) {
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.password ||
+      !formData.country
+    ) {
       alert("Please fill all required fields");
       return;
     }
@@ -48,7 +53,7 @@ const Register = () => {
         email: formData.email,
         password: formData.password,
         country: formData.country,
-        accType: formData.accType
+        accType: formData.accType,
       };
 
       // Add account-specific fields
@@ -91,7 +96,7 @@ const Register = () => {
           qualification: "",
           about: "",
           companyName: "",
-          companyAddress: ""
+          companyAddress: "",
         });
         setStep(1);
       } else {
@@ -109,7 +114,10 @@ const Register = () => {
 
   return (
     <div className="register-container">
-      <form className="register-form" onSubmit={step === 1 ? handleNext : handleSubmit}>
+      <form
+        className="register-form"
+        onSubmit={step === 1 ? handleNext : handleSubmit}
+      >
         <h2>Register</h2>
 
         {step === 1 ? (
@@ -229,6 +237,13 @@ const Register = () => {
                     value={formData.about}
                     onChange={handleChange}
                     required
+                    style={{
+                      backgroundColor: "#111",
+                      color: "#fff",
+                      width: "390px",
+                      height: "150px",
+                      border: "2px solid #1abc9c",
+                    }}
                   />
                 </div>
               </>
@@ -290,11 +305,7 @@ const Register = () => {
         </button>
 
         {step === 2 && (
-          <button
-            type="button"
-            className="back-btn"
-            onClick={() => setStep(1)}
-          >
+          <button type="button" className="back-btn" onClick={() => setStep(1)}>
             Back
           </button>
         )}

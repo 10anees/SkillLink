@@ -153,17 +153,13 @@ const Dashboard = () => {
 
               <div
                 className="overview-card dark"
-                onClick={() =>
-                  navigate(
-                    currentUser.accType === "Client" ? "/post-job" : "/jobs"
-                  )
-                }
+                onClick={ () => navigate("/proposals") }
                 style={{ cursor: "pointer" }}
               >
                 <h3>
                   {currentUser.accType === "Client"
                     ? "Active Proposals"
-                    : "Applied Jobs"}
+                    : "Applied Proposals"}
                 </h3>
                 <p>
                   {jobsCount}{" "}
