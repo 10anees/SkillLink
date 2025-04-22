@@ -163,6 +163,19 @@ ALTER TABLE Freelancers
 ADD CONSTRAINT fkFreelancers
 FOREIGN KEY (freelancerID) REFERENCES Users(userID) ON UPDATE CASCADE ON DELETE CASCADE;
 
+-- Price attribute in Jobs
+ALTER TABLE Jobs
+ADD price MONEY CONSTRAINT DF_Jobs_Price DEFAULT 10;
+
+-- update the Prices in Jobs
+UPDATE Jobs
+SET price = CAST(ABS(CHECKSUM(NEWID())) % 901 + 100 AS MONEY)
+WHERE jobID IN (
+    1, 2, 3, 4, 1002, 1003, 1004, 1005, 1006, 
+    1007, 1008, 1009, 2002, 2003, 2004, 2005
+);
+
+
 
 -- Trigger to increment the proposalsReceived variable
 GO
@@ -203,6 +216,12 @@ BEGIN
     WHERE Proposals.jobID IN (SELECT jobID FROM deleted);
 END;
 GO
+
+-- -- Disable the trigger
+-- DISABLE TRIGGER trgUpdateJob ON Jobs;
+
+-- Re-enable the trigger
+ENABLE TRIGGER trgUpdateJob ON Jobs;
 
 CREATE TRIGGER trgUpdateJob ON Jobs
 FOR UPDATE AS
