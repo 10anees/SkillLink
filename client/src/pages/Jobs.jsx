@@ -4,7 +4,7 @@ import JobList from "../components/jobs/JobList";
 import { useAuth } from "../context/AuthContext";
 import "../styles/Jobs.css";
 
-const ActiveJobs = () => {
+const Jobs = () => {
   const { currentUser } = useAuth();
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,24 +16,22 @@ const ActiveJobs = () => {
   });
 
   useEffect(() => {
-    const fetchActiveJobs = async () => {
-      if (!currentUser || currentUser.accType !== "Client") return;
-
+    const fetchJobs = async () => {
       try {
         setLoading(true);
         const res = await fetch(
-          `http://localhost:4000/api/v1/jobs/client/${currentUser.userID}?status=Active`
+          `http://localhost:4000/api/v1/jobs/freelancer/${currentUser.userID}`
         );
         const data = await res.json();
         setJobs(Array.isArray(data) ? data : []);
       } catch (err) {
-        console.error("Failed to fetch active jobs:", err);
+        console.error("Failed to fetch jobs:", err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchActiveJobs();
+    fetchJobs();
   }, [currentUser]);
 
   return (
@@ -44,9 +42,9 @@ const ActiveJobs = () => {
 
       <div className="jobs-main">
         {loading ? (
-          <div className="loading">Loading active jobs...</div>
+          <div className="loading">Loading jobs...</div>
         ) : jobs.length === 0 ? (
-          <div className="no-jobs">No active jobs found</div>
+          <div className="no-jobs">No jobs found</div>
         ) : (
           <JobList jobs={jobs} filters={filters} showActions />
         )}
@@ -55,4 +53,4 @@ const ActiveJobs = () => {
   );
 };
 
-export default ActiveJobs;
+export default Jobs;

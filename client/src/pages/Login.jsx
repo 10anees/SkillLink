@@ -2,11 +2,11 @@
 import React, { useState } from 'react';
 import '../styles/Login.css';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; // ✅ import context
+import { useAuth } from '../context/AuthContext'; // import context
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useAuth(); // ✅ get login function from context
+  const { login } = useAuth(); // get login function from context
   const [form, setForm] = useState({ email: '', password: '' });
 
   const handleChange = (e) => {
@@ -29,7 +29,6 @@ const Login = () => {
       if (response.ok) {
         console.log('Login successful:', data);
 
-        // ✅ Save user to context
         login({
           userID: data.userID,
           name: data.name,

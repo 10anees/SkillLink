@@ -18,7 +18,7 @@ const EstimatedTimeInput = ({ estTime, setEstTime }) => {
         <option value="1 week">1 week</option>
         <option value="2 weeks">2 weeks</option>
         <option value="1 month">1 month</option>
-        <option value="Other">Other</option>
+        <option value=" > 1 month">Other</option>
       </select>
     </div>
   );
